@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zone D</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #image-selector-container {
+            margin-bottom: 10px;
+        }
+
+        #image-selector {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #image-selector::-webkit-select-placeholder {
+            color: #fff;
+        }
+
+        #image-selector:-moz-placeholder {
+            color: #fff;
+        }
+
+        #image-selector::-moz-placeholder {
+            color: #fff;
+        }
+
+        #image-selector:-ms-input-placeholder {
+            color: #fff;
+        }
+
+        #image-selector-container:after {
+            content: '\25BC';
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        #image-container {
+            width: 550px;
+            height: 550px;
+            position: relative;
+            border: 1px dashed #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        #image {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+        }
+
+        #coordinates {
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+            display: block;
+        }
+
+        #continue-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        #continue-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="image-selector-container">
+        <select id="image-selector">
+            <option value="" disabled selected>Select an image</option>
+	<option value="D01(05).jpg">Zone D - 01</option>
+	<option value="D02(06).jpg">Zone D - 02</option>
+	<option value="D03(08).jpg">Zone D - 03</option>
+	<option value="D04(09).jpg">Zone D - 04</option>
+	<option value="D05(10).jpg">Zone D - 05</option>
+	<option value="D06(14).jpg">Zone D - 06</option>
+	<option value="D07(15).jpg">Zone D - 07</option>
+        </select>
+    </div>
+    <div id="image-container">
+        <img id="image" />
+        <div id="dot" class="dot"></div>
+    </div>
+    <div id="coordinates"></div>
+    <a id="continue-btn" href="#" target="_blank">Continue</a>
+
+    <script>
+        const imageSelector = document.getElementById('image-selector');
+        const imageElement = document.getElementById('image');
+        const coordinatesElement = document.getElementById('coordinates');
+        const continueBtn = document.getElementById('continue-btn');
+        const dotElement = document.getElementById('dot');
+
+        imageSelector.addEventListener('change', function () {
+            const selectedImage = imageSelector.value;
+
+            if (selectedImage) {
+                const img = new Image();
+                img.src = selectedImage;
+
+                img.addEventListener('load', function () {
+                    imageElement.src = selectedImage;
+                    continueBtn.style.display = 'inline-block';
+                });
+            } else {
+                imageElement.src = '';
+                continueBtn.style.display = 'inline-block';
+            }
+        });
+
+        imageElement.addEventListener('click', function (event) {
+            if (!imageSelector.value) return;
+
+            const rect = imageElement.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const coordinates = `X: ${x.toFixed(2)} | Y: ${y.toFixed(2)}`;
+            const selectedImage = imageSelector.value;
+            const filename = selectedImage.split('/').pop();
+
+            coordinatesElement.textContent = coordinates;
+            coordinatesElement.style.display = 'block';
+
+            dotElement.style.left = `${x - 5}px`;
+            dotElement.style.top = `${y - 5}px`;
+            dotElement.style.display = 'block';
+
+            continueBtn.href = `https://docs.google.com/forms/d/e/1FAIpQLSc7Fda9lB3s-W4b9j8wl3_XmMbiovImP94XQhtNxZZkMoikvw/viewform?usp=pp_url&entry.1335612150=${filename}&entry.645548831=${x.toFixed(2)}&entry.6064738=${y.toFixed(2)}`;
+        });
+    </script>
+</body>
+</html>
