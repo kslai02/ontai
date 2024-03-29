@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+body, html {
+height: 100%;
+margin: 0;
+padding: 0;
+}
+        
+.image-frame {
+height: 90vh;
+width: 100vw;
+position: relative;
+background-color: #f2f2f2;
+overflow: auto;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+        
+.image-frame img {
+max-width: 100%;
+max-height: 100%;
+}
+        
+.circle-marker {
+position: absolute;
+width: 10px;
+height: 10px;
+border-radius: 50%;
+background-color: red;
+}
+        
+.coordinate-display {
+position: fixed;
+top: 2.5vh;
+left: 50%;
+transform: translateX(-50%);
+font-family: Courier New;
+font-size: 18px;
+color: black;
+background-color: #a7e1fb;
+border: none;
+border-radius: 5px;
+padding: 10px;
+}
+        
+#rectangle {
+position: fixed;
+bottom: 2.5vh;
+left: 2.5vh;
+width: 15vh;
+height: 5vh;
+background-color: #a7e1fb;
+padding-left: 10px;
+padding-right: 10px;
+border-radius: 5px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+    
+.circle-button {
+width: 2vh;
+height: 2vh;
+border-radius: 50%;
+background-color: #67c0e7;
+color: #fff;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: Courier New;
+font-size: 18px;
+}
+    
+#square {
+position: fixed;
+bottom: 2.5vh;
+right: 2.5vh;
+width: 5vh;
+height: 5vh;
+background-color: #a7e1fb;
+border-radius: 5px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+    
+#counter {
+font-family: Courier New;
+font-size: 18px;
+}
+
+//.continue-button {
+//position: fixed;
+//bottom: 5%;
+//left: 50%;
+//transform: translateX(-50%);
+//font-family: Courier New;
+//font-size: 16px;
+//text-decoration: none;
+//width: 5%;
+//height: 5%;
+//padding: 0;
+//background-color: #a7e1fb;
+//color: black;
+//border: none;
+//border-radius: 0;
+//display: flex;
+//justify-content: center;
+//align-items: center;
+//}
+
+.dropdown {
+position: fixed;
+top: 2.5vh;
+right: 2.5vh;
+font-family: Courier New;
+background-color: #a7e1fb;
+border: none;
+border-radius: 5px;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 0px;
+padding-bottom: 0px;
+}
+
+.dropdown select {
+font-size: 18px;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 10px;
+padding-bottom: 10px;
+font-family: Courier New;
+color: black;
+background-color: #a7e1fb;
+border-radius: 5px;
+border: none;
+}
+    </style>
+</head>
+
+<body>
+    <div class="image-frame" id="imageFrame">
+        <img src="map.jpg" alt="Your Image" id="image">
+        <div class="circle-marker" id="circleMarker"></div>
+    </div>
+    <div class="coordinate-display" id="coordinateDisplay">Coordinate</div>
+    <a href="#" class="continue-button" id="continueButton" target="_blank"></a>
+    <div class="dropdown">
+        <select id="zoneSelect">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+        </select>
+    </div>
+<div id="rectangle">
+    <a href="#" id="minus" class="circle-button">-</a>
+    <span id="counter">1</span>
+    <a href="#" id="plus" class="circle-button">+</a>
+  </div>
+  
+  <div id="square">
+    <a href="#" id="result" class="circle-button"></a>
+  </div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', function() {
+        var imageFrame = document.getElementById('imageFrame');
+        var image = document.getElementById('image');
+        var circleMarker = document.getElementById('circleMarker');
+        var coordinateDisplay = document.getElementById('coordinateDisplay');
+        var continueButton = document.getElementById('continueButton');
+        var zoneSelect = document.getElementById('zoneSelect');
+
+        var zoneValue; // Declare the variables outside the event listener
+        var offsetX;
+        var offsetY;
+
+        image.addEventListener('load', function() {
+            var imageWidth = this.naturalWidth;
+            var imageHeight = this.naturalHeight;
+
+            imageFrame.style.width = imageWidth + 'px';
+            imageFrame.style.height = imageHeight + 'px';
+        });
+
+        imageFrame.addEventListener('click', function(event) {
+            offsetX = event.offsetX;
+            offsetY = event.offsetY;
+
+            var markerX = offsetX - circleMarker.offsetWidth / 2;
+            var markerY = offsetY - circleMarker.offsetHeight / 2;
+
+            circleMarker.style.left = markerX + 'px';
+            circleMarker.style.top = markerY + 'px';
+
+            zoneValue = zoneSelect.value;
+            var coordinateText = 'Zone: ' + zoneValue + ', X: ' + offsetX + ', Y: ' + offsetY;
+            coordinateDisplay.textContent = coordinateText;
+
+            continueButton.href = 'https://docs.google.com/forms/d/e/1FAIpQLSc7Fda9lB3s-W4b9j8wl3_XmMbiovImP94XQhtNxZZkMoikvw/viewform?usp=pp_url&entry.1738134560=' + encodeURIComponent(zoneValue) + '&entry.645548831=' + encodeURIComponent(offsetX) + '&entry.6064738=' + encodeURIComponent(offsetY) + '&entry.988462374=1&entry.1487193873=No';
+        });
+
+        var counter = document.getElementById("counter");
+        var minusButton = document.getElementById("minus");
+        var plusButton = document.getElementById("plus");
+        var result = document.getElementById("result");
+
+        var count = 1;
+
+        minusButton.addEventListener("click", function() {
+            if (count > 1) {
+                count--;
+                counter.textContent = count;
+            }
+        });
+
+        plusButton.addEventListener("click", function() {
+            count++;
+            counter.textContent = count;
+        });
+
+        square.addEventListener("mouseover", function() {
+            result.textContent = count;
+            result.href = 'https://docs.google.com/forms/d/e/1FAIpQLSc7Fda9lB3s-W4b9j8wl3_XmMbiovImP94XQhtNxZZkMoikvw/viewform?usp=pp_url&entry.1738134560=' + encodeURIComponent(zoneValue) + '&entry.645548831=' + encodeURIComponent(offsetX) + '&entry.6064738=' + encodeURIComponent(offsetY) + '&entry.988462374=' + encodeURIComponent(count) + '&entry.1487193873=No'
+        });
+
+
+        square.addEventListener("mouseout", function() {
+            result.textContent = "";
+            result.href = "#";
+        });
+    });
+</script>
+
+
+</body>
+</html>
