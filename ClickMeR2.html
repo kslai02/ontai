@@ -213,6 +213,7 @@ border: none;
         var count = 1;
 
         minusButton.addEventListener("click", function() {
+            event.preventDefault();
             if (count > 1) {
                 count--;
                 counter.textContent = count;
@@ -220,6 +221,7 @@ border: none;
         });
 
         plusButton.addEventListener("click", function() {
+            event.preventDefault();
             count++;
             counter.textContent = count;
         });
