@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Submission</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+  <h1>Form Submission</h1>
+  <form id="myForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="Name" required><br><br>
+  
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="Email" required><br><br>
+  
+    <label for="message">Message:</label>
+    <textarea id="message" name="Message" required></textarea><br><br>
+  
+    <input type="submit" value="Submit">
+  </form>
+  
+  <script>
+    $(document).ready(function() {
+      $('#myForm').submit(function(e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+          url: 'https://script.google.com/macros/s/AKfycbwiTn8Z4Q5eQobTr8KFl6of7YjVaLrycMaQVAyMWBq4kzbv72H9YJ22SluJrpcHWxbfUA/exec',
+          method: 'POST',
+          data: formData,
+          success: function(response) {
+            console.log('Form submitted successfully');
+            alert('Form submitted successfully');
+            $('#myForm')[0].reset();
+          },
+          error: function(error) {
+            console.error('Error submitting form:', error);
+            alert('Error submitting form');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
