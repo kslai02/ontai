@@ -2,18 +2,15 @@
 <html>
 <head>
   <title>Questionnaire</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/papaparse/5.3.0/papaparse.min.js"></script>
+  <script src="script.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Questionnaire</h1>
-    <div id="question-container" class="hide">
-      <p id="question-text"></p>
-      <div id="answer-options"></div>
-      <button id="next-button">Next</button>
-    </div>
+  <div id="question-container">
+    <h1 id="question-text"></h1>
+    <div id="answer-options"></div>
+    <button id="next-button" onclick="showNextQuestion()">Next</button>
   </div>
-
-  <script src="script.js"></script>
 </body>
 </html>
