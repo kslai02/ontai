@@ -12,9 +12,10 @@ function readQuestionsFromCSV(file) {
       for (let i = 1; i < rows.length; i++) {
         const cells = rows[i].split(',');
         const question = {
-          questionText: cells[0],
-          questionType: cells[1],
-          options: cells.slice(2)
+          questionNumber: cells[0],
+          questionText: cells[1],
+          questionType: cells[2],
+          options: cells.slice(3)
         };
         questions.push(question);
       }
@@ -31,7 +32,7 @@ function readQuestionsFromCSV(file) {
 // Function to display current question
 function displayCurrentQuestion() {
   const currentQuestion = questions[currentQuestionIndex];
-  questionTextElement.textContent = currentQuestion.questionText;
+  questionTextElement.textContent = currentQuestion.questionNumber + '. ' + currentQuestion.questionText;
 
   // Clear previous options
   while (answerOptionsElement.firstChild) {
@@ -69,8 +70,17 @@ function showNextQuestion() {
   }
 }
 
+// Get DOM elements
+const questionTextElement = document.getElementById('question-text');
+const answerOptionsElement = document.getElementById('answer-options');
+const nextButtonElement = document.getElementById('next-button');
+const questionContainerElement = document.getElementById('question-container');
+
 // Event listener for the next button
 nextButtonElement.addEventListener('click', showNextQuestion);
+
+// Define the current question index
+let currentQuestionIndex = 0;
 
 // Initialize the form by reading questions from CSV
 readQuestionsFromCSV('questions.csv');
