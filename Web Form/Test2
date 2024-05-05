@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Form</title>
+</head>
+<body>
+    <form id="customForm" action="" method="post">
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+            <option value="1">Male</option>
+            <option value="2">Female</option>
+            <option value="3">Other</option>
+        </select>
+        
+        <label for="ageGroup">Age Group:</label>
+        <select id="ageGroup" name="ageGroup">
+            <option value="1">18-24</option>
+            <option value="2">25-34</option>
+            <option value="3">35-44</option>
+            <option value="4">45-54</option>
+            <option value="5">55+</option>
+        </select>
+        
+        <label for="health">Health:</label>
+        <select id="health" name="health">
+            <option value="1">Excellent</option>
+            <option value="2">Good</option>
+            <option value="3">Fair</option>
+            <option value="4">Poor</option>
+            <option value="5">Very Poor</option>
+        </select>
+        
+        <label for="workingStatus">Working Status:</label>
+        <input type="text" id="workingStatus" name="workingStatus">
+        
+        <label for="where">Where:</label>
+        <input type="text" id="where" name="where">
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#customForm').submit(function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                var formURL = "https://docs.google.com/forms/d/e/1FAIpQLSfOPNt3613R7Zt_VXXVgmXKiZyT2n9igAjLeIqDYScsaWzYdQ/formResponse";
+                var formData = $(this).serialize();
+
+                // Submit the form data using AJAX
+                $.ajax({
+                    url: formURL,
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        // Handle success, such as displaying a success message
+                        alert('Form submitted successfully. Thank you!');
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error, such as displaying an error message
+                        alert('Form submission failed. Please try again later.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
