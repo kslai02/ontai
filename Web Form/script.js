@@ -48,7 +48,9 @@ function displayCurrentQuestion() {
   } else if (currentQuestion.questionType === 'multiple') {
     for (let i = 0; i < currentQuestion.options.length; i++) {
       const option = document.createElement('input');
-      option.type = 'checkbox';
+      option.type = 'radio';
+      option.name = 'answer';
+      option.value = currentQuestion.options[i];
       option.id = 'option-' + i;
       const label = document.createElement('label');
       label.htmlFor = 'option-' + i;
