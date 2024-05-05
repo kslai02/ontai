@@ -41,9 +41,7 @@ function displayCurrentQuestion() {
   questionTextElement.textContent = currentQuestion.questionNumber + '. ' + currentQuestion.questionText;
 
   // Clear previous options
-  while (answerOptionsElement.firstChild) {
-    answerOptionsElement.firstChild.remove();
-  }
+  answerOptionsElement.innerHTML = '';
 
   // Display options based on question type
   if (currentQuestion.questionType === 'text') {
