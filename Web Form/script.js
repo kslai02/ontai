@@ -1,144 +1,100 @@
-// Define variables
-const questionContainerElement = document.getElementById('question-container');
-const questionTextElement = document.getElementById('question-text');
-const answerOptionsElement = document.getElementById('answer-options');
-const nextButtonElement = document.getElementById('next-button');
+// JavaScript (script.js)
 
-let currentQuestionIndex = 0;
-let answers = [];
+function parseCSV(csv) {
+  const lines = csv.split('\n');
+  const headers = lines[0].split(',');
 
-// Function to parse CSV file and load questions
-function loadQuestionsFromCSV(csvFile) {
-  Papa.parse(csvFile, {
-    download: true,
-    header: true,
-    dynamicTyping: true,
-    complete: function (results) {
-      const parsedQuestions = results.data;
-      parseQuestions(parsedQuestions);
-      displayCurrentQuestion();
-    }
-  });
-}
-
-// Function to parse questions array
-function parseQuestions(parsedQuestions) {
-  questions = parsedQuestions.map(question => {
-    const { QuestionNumber, QuestionText, QuestionType, Options, FinalMessage } = question;
-    return {
-      questionNumber: QuestionNumber,
-      questionText: QuestionText,
-      questionType: QuestionType,
-      options: Options ? Options.split(',') : [],
-      finalMessage: FinalMessage
+  const questions = [];
+  for (let i = 1; i < lines.length; i++) {
+    const currentLine = lines[i].split(',');
+    const question = {
+      number: currentLine[0],
+      text: currentLine[1],
+      type: currentLine[2],
+      options: currentLine.slice(3)
     };
-  });
-}
-
-// Function to display current question
-function displayCurrentQuestion() {
-  const currentQuestion = questions[currentQuestionIndex];
-  questionTextElement.textContent = currentQuestion.questionNumber + '. ' + currentQuestion.questionText;
-
-  // Clear previous options
-  answerOptionsElement.innerHTML = '';
-
-  // Display options based on question type
-  if (currentQuestion.questionType === 'text') {
-    const textField = document.createElement('input');
-    textField.type = 'text';
-    textField.id = 'answer-input';
-    answerOptionsElement.appendChild(textField);
-  } else if (currentQuestion.questionType === 'single') {
-    for (let i = 0; i < currentQuestion.options.length; i++) {
-      const option = document.createElement('input');
-      option.type = 'radio';
-      option.name = 'answer';
-      option.value = currentQuestion.options[i];
-      option.id = 'option-' + i;
-      const label = document.createElement('label');
-      label.htmlFor = 'option-' + i;
-      label.textContent = currentQuestion.options[i];
-      answerOptionsElement.appendChild(option);
-      answerOptionsElement.appendChild(label);
-      answerOptionsElement.appendChild(document.createElement('br'));
-    }
-  } else if (currentQuestion.questionType === 'multiple') {
-    for (let i = 0; i < currentQuestion.options.length; i++) {
-      const option = document.createElement('input');
-      option.type = 'checkbox';
-      option.name = 'answer';
-      option.value = currentQuestion.options[i];
-      option.id = 'option-' + i;
-      const label = document.createElement('label');
-      label.htmlFor = 'option-' + i;
-      label.textContent = currentQuestion.options[i];
-      answerOptionsElement.appendChild(option);
-      answerOptionsElement.appendChild(label);
-      answerOptionsElement.appendChild(document.createElement('br'));
-    }
+    questions.push(question);
   }
 
-  // Modify button text for the "End" question type
-  if (currentQuestion.questionType === 'End') {
-    nextButtonElement.textContent = 'Submit';
-  } else {
-    nextButtonElement.textContent = 'Next';
+  return questions;
+}
+
+function loadQuestionsFromCSV(csvFile) {
+  fetch(csvFile)
+    .then(response => response.text())
+    .then(csvData => {
+      const questions = parseCSV(csvData);
+      showQuestion(questions[0]);
+    })
+    .catch(error => {
+      console.error('Error loading CSV:', error);
+    });
+}
+
+function showQuestion(question) {
+  const questionText = document.getElementById('question-text');
+  const answerOptions = document.getElementById('answer-options');
+
+  questionText.textContent = question.text;
+
+  // Clear previous answer options
+  answerOptions.innerHTML = '';
+
+  if (question.type === 'MCQ') {
+    // Create radio buttons for multiple-choice questions
+    for (let i = 0; i < question.options.length; i++) {
+      const option = question.options[i];
+
+      const label = document.createElement('label');
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'answer';
+      input.value = option;
+
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(option));
+
+      answerOptions.appendChild(label);
+    }
+  } else if (question.type === 'Text') {
+    // Create text input for text-based questions
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.name = 'answer';
+
+    answerOptions.appendChild(input);
+  } else if (question.type === 'TextArea') {
+    // Create text area for text-area-based questions
+    const textarea = document.createElement('textarea');
+    textarea.name = 'answer';
+
+    answerOptions.appendChild(textarea);
   }
 }
 
-// Function to show next question or display final message
 function showNextQuestion() {
-  const selectedAnswer = getSelectedAnswer();
-
-  // Store the answer for the current question
-  answers[currentQuestionIndex] = selectedAnswer;
-
-  // Increment the current question index
-  currentQuestionIndex++;
-
-  // Check if it's the last question
-  if (currentQuestionIndex === questions.length) {
-    displayFinalMessage();
+  // Retrieve selected answer
+  let selectedAnswer;
+  const selectedOption = document.querySelector('input[name="answer"]:checked');
+  if (selectedOption) {
+    selectedAnswer = selectedOption.value;
   } else {
-    displayCurrentQuestion();
+    selectedAnswer = document.querySelector('input[name="answer"]').value;
   }
+  console.log('Selected Answer:', selectedAnswer);
+
+  // Perform necessary actions with the selected answer
+
+  // Retrieve the next question
+  const currentQuestionIndex = 0; // Replace with the index of the current question
+  const nextQuestion = questions[currentQuestionIndex + 1];
+
+  // Display the next question
+  showQuestion(nextQuestion);
 }
 
-// Function to retrieve the selected answer
-function getSelectedAnswer() {
-  const answerElements = document.getElementsByName('answer');
-  let selectedAnswer = '';
-
-  for (let i = 0; i < answerElements.length; i++) {
-    if (answerElements[i].checked) {
-      selectedAnswer = answerElements[i].value;
-      break;
-    }
-  }
-
-  if (selectedAnswer === '') {
-    selectedAnswer = document.getElementById('answer-input').value;
-  }
-
-  return selectedAnswer;
-}
-
-// Function to display final message or additional content
-function displayFinalMessage() {
-  questionContainerElement.classList.add('hide');
-
-  // Retrieve the final message from the current question
-  const currentQuestion = questions[currentQuestionIndex];
-  const finalMessage = currentQuestion.finalMessage;
-
-  // Create a paragraph element for the final message
-  const finalMessageElement = document.createElement('p');
-  finalMessageElement.textContent = finalMessage;
-
-  // Append the final message element to the question container
-  questionContainerElement.appendChild(finalMessageElement);
-}
-
-// Load questions from CSV file
-loadQuestionsFromCSV('questions.csv');
+// Load questions from CSV when the page is loaded
+window.onload = function() {
+  const csvFile = 'questions.csv'; // Replace with the path to your question CSV file
+  loadQuestionsFromCSV(csvFile);
+};
