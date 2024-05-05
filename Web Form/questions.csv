@@ -1,0 +1,4 @@
+QuestionNumber,QuestionText,QuestionType,Option1,Option2,Option3,...
+1,What is your name,text
+2,What is your age,text
+3,What is your favorite color,multiple,Red,Blue,Green
