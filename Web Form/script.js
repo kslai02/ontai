@@ -28,7 +28,6 @@ function readQuestionsFromCSV(file) {
       console.error('Error reading CSV file:', error);
     });
 }
-
 // Function to display current question
 function displayCurrentQuestion() {
   const currentQuestion = questions[currentQuestionIndex];
@@ -45,10 +44,24 @@ function displayCurrentQuestion() {
     textField.type = 'text';
     textField.id = 'answer-input';
     answerOptionsElement.appendChild(textField);
-  } else if (currentQuestion.questionType === 'multiple') {
+  } else if (currentQuestion.questionType === 'single') {
     for (let i = 0; i < currentQuestion.options.length; i++) {
       const option = document.createElement('input');
       option.type = 'radio';
+      option.name = 'answer';
+      option.value = currentQuestion.options[i];
+      option.id = 'option-' + i;
+      const label = document.createElement('label');
+      label.htmlFor = 'option-' + i;
+      label.textContent = currentQuestion.options[i];
+      answerOptionsElement.appendChild(option);
+      answerOptionsElement.appendChild(label);
+      answerOptionsElement.appendChild(document.createElement('br'));
+    }
+  } else if (currentQuestion.questionType === 'multiple') {
+    for (let i = 0; i < currentQuestion.options.length; i++) {
+      const option = document.createElement('input');
+      option.type = 'checkbox';
       option.name = 'answer';
       option.value = currentQuestion.options[i];
       option.id = 'option-' + i;
