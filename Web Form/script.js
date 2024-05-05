@@ -75,12 +75,13 @@ function displayCurrentQuestion() {
   }
 
   // Modify button text for the last question
-  if (currentQuestionIndex === questions.length - 1) {
+  if (currentQuestion.questionType === 'end') {
     nextButtonElement.textContent = 'Submit';
   } else {
     nextButtonElement.textContent = 'Next';
   }
 }
+
 // Function to show next question
 function showNextQuestion() {
   currentQuestionIndex++;
