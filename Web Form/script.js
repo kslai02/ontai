@@ -74,8 +74,8 @@ function displayCurrentQuestion() {
     }
   }
 
-  // Modify button text for the last question
-  if (currentQuestion.questionType === 'end') {
+  // Modify button text for the "End" question type
+  if (currentQuestion.questionType === 'End') {
     nextButtonElement.textContent = 'Submit';
   } else {
     nextButtonElement.textContent = 'Next';
@@ -84,11 +84,19 @@ function displayCurrentQuestion() {
 
 // Function to show next question
 function showNextQuestion() {
+  const selectedAnswer = getSelectedAnswer();
+
+  // Store the answer for the current question
+  answers[currentQuestionIndex] = selectedAnswer;
+
+  // Increment the current question index
   currentQuestionIndex++;
-  if (currentQuestionIndex < questions.length) {
-    displayCurrentQuestion();
+
+  // Check if it's the last question
+  if (currentQuestionIndex === questions.length) {
+    displayFinalMessage();
   } else {
-    questionContainerElement.style.display = 'none';
+    displayCurrentQuestion();
   }
 }
 
