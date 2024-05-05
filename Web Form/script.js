@@ -1,100 +1,45 @@
-// JavaScript (script.js)
-
-function parseCSV(csv) {
-  const lines = csv.split('\n');
-  const headers = lines[0].split(',');
-
-  const questions = [];
-  for (let i = 1; i < lines.length; i++) {
-    const currentLine = lines[i].split(',');
-    const question = {
-      number: currentLine[0],
-      text: currentLine[1],
-      type: currentLine[2],
-      options: currentLine.slice(3)
-    };
-    questions.push(question);
-  }
-
-  return questions;
-}
-
-function loadQuestionsFromCSV(csvFile) {
-  fetch(csvFile)
-    .then(response => response.text())
-    .then(csvData => {
-      const questions = parseCSV(csvData);
-      showQuestion(questions[0]);
-    })
-    .catch(error => {
-      console.error('Error loading CSV:', error);
-    });
-}
-
-function showQuestion(question) {
-  const questionText = document.getElementById('question-text');
-  const answerOptions = document.getElementById('answer-options');
-
-  questionText.textContent = question.text;
-
-  // Clear previous answer options
-  answerOptions.innerHTML = '';
-
-  if (question.type === 'MCQ') {
-    // Create radio buttons for multiple-choice questions
-    for (let i = 0; i < question.options.length; i++) {
-      const option = question.options[i];
-
-      const label = document.createElement('label');
-      const input = document.createElement('input');
-      input.type = 'radio';
-      input.name = 'answer';
-      input.value = option;
-
-      label.appendChild(input);
-      label.appendChild(document.createTextNode(option));
-
-      answerOptions.appendChild(label);
+function readCSV(file, callback) {
+  var rawFile = new XMLHttpRequest();
+  rawFile.open("GET", file, true);
+  rawFile.onreadystatechange = function () {
+    if (rawFile.readyState === 4 && (rawFile.status === 200 || rawFile.status === 0)) {
+      var allText = rawFile.responseText;
+      callback(allText);
     }
-  } else if (question.type === 'Text') {
-    // Create text input for text-based questions
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.name = 'answer';
+  };
+  rawFile.send(null);
+}
 
-    answerOptions.appendChild(input);
-  } else if (question.type === 'TextArea') {
-    // Create text area for text-area-based questions
-    const textarea = document.createElement('textarea');
-    textarea.name = 'answer';
+function parseCSV(csvData) {
+  var lines = csvData.split("\n");
+  var questionsContainer = document.getElementById("questionsContainer");
 
-    answerOptions.appendChild(textarea);
+  for (var i = 0; i < lines.length; i++) {
+    var row = lines[i].split(",");
+
+    var question = row[0];
+    var options = row.slice(1);
+
+    var questionElement = document.createElement("p");
+    questionElement.textContent = question;
+    questionsContainer.appendChild(questionElement);
+
+    if (options.length > 0) {
+      var selectElement = document.createElement("select");
+      for (var j = 0; j < options.length; j++) {
+        var option = document.createElement("option");
+        option.textContent = options[j];
+        selectElement.appendChild(option);
+      }
+      questionsContainer.appendChild(selectElement);
+    } else {
+      var inputElement = document.createElement("input");
+      inputElement.setAttribute("type", "text");
+      questionsContainer.appendChild(inputElement);
+    }
   }
 }
 
-function showNextQuestion() {
-  // Retrieve selected answer
-  let selectedAnswer;
-  const selectedOption = document.querySelector('input[name="answer"]:checked');
-  if (selectedOption) {
-    selectedAnswer = selectedOption.value;
-  } else {
-    selectedAnswer = document.querySelector('input[name="answer"]').value;
-  }
-  console.log('Selected Answer:', selectedAnswer);
-
-  // Perform necessary actions with the selected answer
-
-  // Retrieve the next question
-  const currentQuestionIndex = 0; // Replace with the index of the current question
-  const nextQuestion = questions[currentQuestionIndex + 1];
-
-  // Display the next question
-  showQuestion(nextQuestion);
-}
-
-// Load questions from CSV when the page is loaded
-window.onload = function() {
-  const csvFile = 'questions.csv'; // Replace with the path to your question CSV file
-  loadQuestionsFromCSV(csvFile);
-};
+document.addEventListener("DOMContentLoaded", function() {
+  readCSV("questions.csv", parseCSV);
+});
