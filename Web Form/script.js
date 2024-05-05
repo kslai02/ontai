@@ -73,8 +73,14 @@ function displayCurrentQuestion() {
       answerOptionsElement.appendChild(document.createElement('br'));
     }
   }
-}
 
+  // Modify button text for the last question
+  if (currentQuestionIndex === questions.length - 1) {
+    nextButtonElement.textContent = 'Submit';
+  } else {
+    nextButtonElement.textContent = 'Next';
+  }
+}
 // Function to show next question
 function showNextQuestion() {
   currentQuestionIndex++;
