@@ -1,33 +1,40 @@
-// Define the list of questions
-let questions = [];
+// Define variables
+const questionContainerElement = document.getElementById('question-container');
+const questionTextElement = document.getElementById('question-text');
+const answerOptionsElement = document.getElementById('answer-options');
+const nextButtonElement = document.getElementById('next-button');
 
-// Read questions from CSV file
-function readQuestionsFromCSV(file) {
-  fetch(file)
-    .then(response => response.text())
-    .then(data => {
-      const rows = data.split('\n');
-      const headers = rows[0].split(',');
+let currentQuestionIndex = 0;
+let answers = [];
 
-      for (let i = 1; i < rows.length; i++) {
-        const cells = rows[i].split(',');
-        const question = {
-          questionNumber: cells[0],
-          questionText: cells[1],
-          questionType: cells[2],
-          options: cells.slice(3)
-        };
-        questions.push(question);
-      }
-
+// Function to parse CSV file and load questions
+function loadQuestionsFromCSV(csvFile) {
+  Papa.parse(csvFile, {
+    download: true,
+    header: true,
+    dynamicTyping: true,
+    complete: function (results) {
+      const parsedQuestions = results.data;
+      parseQuestions(parsedQuestions);
       displayCurrentQuestion();
-      questionContainerElement.style.display = 'block';
-      nextButtonElement.style.display = 'block';
-    })
-    .catch(error => {
-      console.error('Error reading CSV file:', error);
-    });
+    }
+  });
 }
+
+// Function to parse questions array
+function parseQuestions(parsedQuestions) {
+  questions = parsedQuestions.map(question => {
+    const { QuestionNumber, QuestionText, QuestionType, Options, FinalMessage } = question;
+    return {
+      questionNumber: QuestionNumber,
+      questionText: QuestionText,
+      questionType: QuestionType,
+      options: Options ? Options.split(',') : [],
+      finalMessage: FinalMessage
+    };
+  });
+}
+
 // Function to display current question
 function displayCurrentQuestion() {
   const currentQuestion = questions[currentQuestionIndex];
@@ -82,7 +89,7 @@ function displayCurrentQuestion() {
   }
 }
 
-// Function to show next question
+// Function to show next question or display final message
 function showNextQuestion() {
   const selectedAnswer = getSelectedAnswer();
 
@@ -100,17 +107,40 @@ function showNextQuestion() {
   }
 }
 
-// Get DOM elements
-const questionTextElement = document.getElementById('question-text');
-const answerOptionsElement = document.getElementById('answer-options');
-const nextButtonElement = document.getElementById('next-button');
-const questionContainerElement = document.getElementById('question-container');
+// Function to retrieve the selected answer
+function getSelectedAnswer() {
+  const answerElements = document.getElementsByName('answer');
+  let selectedAnswer = '';
 
-// Event listener for the next button
-nextButtonElement.addEventListener('click', showNextQuestion);
+  for (let i = 0; i < answerElements.length; i++) {
+    if (answerElements[i].checked) {
+      selectedAnswer = answerElements[i].value;
+      break;
+    }
+  }
 
-// Define the current question index
-let currentQuestionIndex = 0;
+  if (selectedAnswer === '') {
+    selectedAnswer = document.getElementById('answer-input').value;
+  }
 
-// Initialize the form by reading questions from CSV
-readQuestionsFromCSV('questions.csv');
+  return selectedAnswer;
+}
+
+// Function to display final message or additional content
+function displayFinalMessage() {
+  questionContainerElement.classList.add('hide');
+
+  // Retrieve the final message from the current question
+  const currentQuestion = questions[currentQuestionIndex];
+  const finalMessage = currentQuestion.finalMessage;
+
+  // Create a paragraph element for the final message
+  const finalMessageElement = document.createElement('p');
+  finalMessageElement.textContent = finalMessage;
+
+  // Append the final message element to the question container
+  questionContainerElement.appendChild(finalMessageElement);
+}
+
+// Load questions from CSV file
+loadQuestionsFromCSV('questions.csv');
