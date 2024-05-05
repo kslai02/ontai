@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>Custom Form from CSV</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
   <h1>Custom Form</h1>
@@ -11,38 +10,6 @@
     <button type="submit">Submit</button>
   </form>
 
-  <script>
-    $(document).ready(function() {
-      $.ajax({
-        type: "GET",
-        url: "questions.csv", // Replace with your CSV file path
-        dataType: "text",
-        success: function(data) {
-          var csvData = $.csv.toArrays(data);
-          var questionsContainer = $("#questionsContainer");
-
-          for (var i = 0; i < csvData.length; i++) {
-            var question = csvData[i][0];
-            var options = csvData[i].slice(1);
-
-            var questionElement = $("<p>").text(question);
-            questionElement.appendTo(questionsContainer);
-
-            if (options.length > 0) {
-              var selectElement = $("<select>");
-              for (var j = 0; j < options.length; j++) {
-                var option = $("<option>").text(options[j]);
-                option.appendTo(selectElement);
-              }
-              selectElement.appendTo(questionsContainer);
-            } else {
-              var inputElement = $("<input>").attr("type", "text");
-              inputElement.appendTo(questionsContainer);
-            }
-          }
-        }
-      });
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
