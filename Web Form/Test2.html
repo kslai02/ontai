@@ -46,13 +46,26 @@
                 event.preventDefault(); // Prevent form submission
 
                 var formURL = "https://docs.google.com/forms/d/e/1FAIpQLSfOPNt3613R7Zt_VXXVgmXKiZyT2n9igAjLeIqDYScsaWzYdQ/formResponse";
-                var formData = $(this).serialize();
+
+                // Get the values submitted by the user
+                var gender = $('#gender').val();
+                var ageGroup = $('#ageGroup').val();
+                var health = $('#health').val();
+                var workingStatus = $('#workingStatus').val();
+                var where = $('#where').val();
+
+                // Customize the formURL with the user-submitted values
+                formURL += "?usp=pp_url"
+                    + "&entry.1537299064=" + gender
+                    + "&entry.1708966642=" + ageGroup
+                    + "&entry.171883356=" + health
+                    + "&entry.944929687=" + workingStatus
+                    + "&entry.1435749543=" + where;
 
                 // Submit the form data using AJAX
                 $.ajax({
                     url: formURL,
                     type: "POST",
-                    data: formData,
                     success: function(response) {
                         // Handle success, such as displaying a success message
                         alert('Form submitted successfully. Thank you!');
