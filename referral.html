@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Referral Link Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type=text] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    #area-code {
+      width: 80px;
+    }
+
+    button {
+      background-color: #7f7f7f;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f1f1f1;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #copy-btn {
+      margin-top: 10px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Referral Link Generator</h2>
+    <form id="webform-generator">
+      <label for="serial-number">Serial Number (S/N):</label>
+      <input type="text" id="serial-number" name="serial-number" placeholder="Enter serial number" required>
+
+      <label for="phone-number">Phone Number:</label>
+      <div style="display: flex;">
+        <input type="text" id="area-code" name="area-code" placeholder="852" value="852" required>
+        <input type="text" id="phone-number" name="phone-number" placeholder="Enter phone number" required>
+      </div>
+
+      <button type="submit">
+        <i class="fa fa-check"></i> Generate Link
+      </button>
+    </form>
+
+    <div id="result">
+      <p>Text to Include (Traditional Chinese): <span id="trad-text"></span></p>
+      <p>Referral Link (Traditional Chinese): <a href="#" id="trad-referral" target="_blank"></a></p>
+      <button id="trad-copy-btn">Copy to Clipboard</button>
+
+      <p>Text to Include (English): <span id="eng-text"></span></p>
+      <p>Referral Link (English): <a href="#" id="eng-referral" target="_blank"></a></p>
+      <button id="eng-copy-btn">Copy to Clipboard</button>
+
+      <p>Text to Include (Simplified Chinese): <span id="simp-text"></span></p>
+      <p>Referral Link (Simplified Chinese): <a href="#" id="simp-referral" target="_blank"></a></p>
+      <button id="simp-copy-btn">Copy to Clipboard</button>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('webform-generator');
+    const tradTextElement = document.getElementById('trad-text');
+    const tradReferralElement = document.getElementById('trad-referral');
+    const tradCopyBtn = document.getElementById('trad-copy-btn');
+
+    const engTextElement = document.getElementById('eng-text');
+    const engReferralElement = document.getElementById('eng-referral');
+    const engCopyBtn = document.getElementById('eng-copy-btn');
+
+    const simpTextElement = document.getElementById('simp-text');
+    const simpReferralElement = document.getElementById('simp-referral');
+    const simpCopyBtn = document.getElementById('simp-copy-btn');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const serialNumber = document.getElementById('serial-number').value;
+      const areaCode = document.getElementById('area-code').value;
+      const phoneNumber = document.getElementById('phone-number').value;
+
+      const tradText = '传统中文文字';
+      const engText = 'English Text';
+      const simpText = '简体中文文字';
+
+      const tradReferral = `https://example.com/webform?s_n=${serialNumber}&phone=${areaCode}${phoneNumber}&text=${encodeURIComponent(tradText)}`;
+      const engReferral = `https://example.com/webform?s_n=${serialNumber}&phone=${areaCode}${phoneNumber}&text=${encodeURIComponent(engText)}`;
+      const simpReferral = `https://example.com/webform?s_n=${serialNumber}&phone=${areaCode}${phoneNumber}&text=${encodeURIComponent(simpText)}`;
+
+      tradTextElement.textContent = tradText;
+      tradReferralElement.href = tradReferral;
+      tradReferralElement.textContent = tradReferral;
+
+      engTextElement.textContent = engText;
+      engReferralElement.href = engReferral;
+      engReferralElement.textContent = engReferral;
+
+      simpTextElement.textContent = simpText;
+      simpReferralElement.href = simpReferral;
+      simpReferralElement.textContent = simpReferral;
+
+      tradCopyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(tradReferral);
+        alert('Referral link copied to clipboard!');
+      });
+
+      engCopyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(engReferral);
+        alert('Referral link copied to clipboard!');
+      });
+
+      simpCopyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(simpReferral);
+        alert('Referral link copied to clipboard!');
+      });
+    });
+  </script>
+</body>
+</html>
