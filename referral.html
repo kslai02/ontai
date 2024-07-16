@@ -128,9 +128,9 @@
       const engText = 'English Text';
       const simpText = '简体中文文字';
 
-      const tradReferral = ${tradText}&%0D%0A&`https://example.com/webform?s_n=${serialNumber}&phone=${areaCode}${phoneNumber}`;
-      const engReferral = ${engText}&%0D%0A&`https://example.com/webform?s_n=${serialNumber}&phone=${areaCode}${phoneNumber}`;
-      const simpReferral = ${simpText}&%0D%0A&`https://example.com/webform?s_n=${serialNumber}&phone=${areaCode}${phoneNumber}`;
+      const tradReferral = `https://example.com/webform?s_n=${serialNumber}&phone=${areaCode}${phoneNumber}`;
+      const engReferral = `https://example.com/webform?s_n=${serialNumber}&phone=${areaCode}${phoneNumber}`;
+      const simpReferral = `https://example.com/webform?s_n=${serialNumber}&phone=${areaCode}${phoneNumber}`;
 
       tradTextElement.textContent = tradText;
       tradReferralElement.href = tradReferral;
