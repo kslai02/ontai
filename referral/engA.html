@@ -86,7 +86,7 @@
       const areaCode = document.getElementById('areaCode').value;
       const phoneNumber = document.getElementById('phoneNumber').value;
 
-      const referralLink = `https://example.com/webform?s_n=${serialNumber}&phone=${areaCode}${phoneNumber}`;
+      const referralLink = `https://forms.office.com/Pages/ResponsePage.aspx?id=Z0SPUnKTWkqMlPonAoUhXba_B5WWkiJIlCR2l3beZORUMlJGOE1HSFRCTTBNT1NRME9LSjdGSFcyQi4u&rb931b2a38b6a4537964433e930fada54=E${serialNumber}A&phone=${areaCode}${phoneNumber}`;
       document.getElementById('referralLink').href = referralLink;
       document.getElementById('referralLink').textContent = referralLink;
     }
