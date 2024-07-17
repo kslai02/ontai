@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Referral Link Generator</title>
+  <style>
+   .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type=text] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #7f7f7f;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    
+    .result-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+      background-color: #f5f5f5;
+    }
+
+    .copy-button {
+      margin-top: 5px;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Referral Link Generator</h1>
+
+<div class="form-container">
+  <label for="serialNumber">Serial Number:</label>
+  <input type="text" id="serialNumber" placeholder="Enter serial number">
+
+  <label for="areaCode">Area Code:</label>
+  <input type="text" id="areaCode" placeholder="852" value="852">
+
+  <label for="phoneNumber">Phone Number:</label>
+  <input type="text" id="phoneNumber" placeholder="Enter phone number">
+
+  <button onclick="generateReferralLink()">Generate Referral Link</button>
+</div>
+
+
+  <div id="result" class="result-box">
+    <span>We would like to invite you to fill in the form:</span><br>
+    <a id="referralLink" href="#" target="_blank"></a><br>
+    <button class="copy-button" onclick="copyToClipboard()">Copy</button>
+  </div>
+
+  <script>
+    function generateReferralLink() {
+      const serialNumber = document.getElementById('serialNumber').value;
+      const areaCode = document.getElementById('areaCode').value;
+      const phoneNumber = document.getElementById('phoneNumber').value;
+
+      const referralLink = `https://example.com/webform?s_n=${serialNumber}&phone=${areaCode}${phoneNumber}`;
+      document.getElementById('referralLink').href = referralLink;
+      document.getElementById('referralLink').textContent = referralLink;
+    }
+
+    function copyToClipboard() {
+      const resultText = document.getElementById('result').textContent;
+      navigator.clipboard.writeText(resultText);
+      alert('Text copied to clipboard!');
+    }
+  </script>
+</body>
+</html>
