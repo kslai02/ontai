@@ -39,12 +39,14 @@
 </div>
 
   <script>
-    const button1-percentages = 50;
-    const button2-percentages = 50;
-    const button3-percentages = 50;
+
+  //If >50, more chance to be first link
+  //If <50, more chance to be second link
+    const button1Percentages = 50;
+    const button2Percentages = 50;
+    const button3Percentages = 50;
 
     function redirectButton1() {
-      const button1Percentage = document.getElementById("button1-percentage").value;
       const randomNumber = Math.random() * 100;
       if (randomNumber <= button1Percentage) {
         window.location.href = "https://example.com/1";
@@ -54,7 +56,6 @@
     }
 
     function redirectButton2() {
-      const button2Percentage = document.getElementById("button2-percentage").value;
       const randomNumber = Math.random() * 100;
       if (randomNumber <= button2Percentage) {
         window.location.href = "https://example.com/3";
@@ -64,7 +65,6 @@
     }
 
     function redirectButton3() {
-      const button3Percentage = document.getElementById("button3-percentage").value;
       const randomNumber = Math.random() * 100;
       if (randomNumber <= button3Percentage) {
         window.location.href = "https://example.com/5";
