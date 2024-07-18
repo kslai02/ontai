@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Referral Link Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+   .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type=text] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #7f7f7f;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    
+    .result-box {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      word-wrap: break-word;
+    }
+
+    .copy-button {
+      background-color: #7f7f7f;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+<div class="form-container">
+  <label for="serialNumber">序号:</label>
+  <input type="text" id="serialNumber" placeholder="请输入序号">
+
+  <label for="areaCode">电话地区号:</label>
+  <input type="text" id="areaCode" placeholder="852" value="852">
+
+  <label for="phoneNumber">电话号码:</label>
+  <input type="text" id="phoneNumber" placeholder="请输入电话号码">
+
+  <button onclick="generateReferralLink()">生产推荐连结</button>
+</div>
+
+
+  <div id="result" class="result-box">
+  <p>
+我邀请你填写一份香港中文大学的研究问卷。<br>
+你有机会获得一份价值200港元的超市礼券。<br>
+<a id="referralLink" href="#" target="_blank"></a>
+  </p>
+  </div>
+  <div class="form-container">
+    <button class="copy-button" onclick="copyToClipboard()">复制信息</button>
+  </div>
+
+  <iframe src="blob.hk" width="1" height="1" frameborder="0"></iframe>
+
+  <script>
+    function generateReferralLink() {
+      const serialNumber = document.getElementById('serialNumber').value;
+      const areaCode = document.getElementById('areaCode').value;
+      const phoneNumber = document.getElementById('phoneNumber').value;
+
+      const referralLink = `https://forms.office.com/Pages/ResponsePage.aspx?id=Z0SPUnKTWkqMlPonAoUhXba_B5WWkiJIlCR2l3beZORUNE1JVkJWU1hLNDJTTFdZQVBPSURRTlJJTi4u&rb931b2a38b6a4537964433e930fada54=S${serialNumber}B&rdc72b0214d8a4f699eb3ef19fe9e0e64=${areaCode}${phoneNumber}`;
+      document.getElementById('referralLink').href = referralLink;
+      document.getElementById('referralLink').textContent = referralLink;
+    }
+
+    function copyToClipboard() {
+      const resultText = document.getElementById('result').textContent;
+      navigator.clipboard.writeText(resultText);
+      alert('信息已被复制!');
+    }
+  </script>
+</body>
+</html>
