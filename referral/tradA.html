@@ -82,7 +82,7 @@
   </p>
   </div>
   <div class="form-container">
-    <button class="copy-button" onclick="copyToClipboard()">Copy</button>
+    <button class="copy-button" onclick="copyToClipboard()">複製信息</button>
   </div>
 
   <iframe src="blob.hk" width="1" height="1" frameborder="0"></iframe>
@@ -101,7 +101,7 @@
     function copyToClipboard() {
       const resultText = document.getElementById('result').textContent;
       navigator.clipboard.writeText(resultText);
-      alert('Text copied to clipboard!');
+      alert('信息已被複製!');
     }
   </script>
 </body>
