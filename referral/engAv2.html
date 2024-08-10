@@ -87,6 +87,7 @@ Get a chance to win $200 of Supermarket Voucher!<br>
     <button class="copy-button" onclick="copyToClipboard()">Copy</button>
   </div>
 
+<script src="firebase/firebase.js"></script>
 <script>
   function generateReferralLink() {
     const serialNumber = document.getElementById('serialNumber').value;
@@ -120,34 +121,31 @@ Get a chance to win $200 of Supermarket Voucher!<br>
     navigator.clipboard.writeText(resultText);
     alert('Text copied to clipboard!');
   }
-</script>
+   saveDataToFirebase(formattedSerialNumber, areaCode, phoneNumber);
+}
 
-<script src="firebase/firebase.js"></script>
-<script>
-  const serialNumber = document.querySelector("serialNumber");
-  const areaCode = document.querySelector("areaCode");
-  const phoneNumber = document.querySelector("phoneNumber");
-  const submit = document.querySelector("submit");
-
-    submit.addEventListener('click', (e) => {
-    e.preventDefault();
+  function saveDataToFirebase(serialNumber, areaCode, phoneNumber) {
+    // Initialize Firebase
+    const firebaseConfig = {
+        // Your Firebase config
+    };
     
-    var serialNumber = document.getElementById('serial-number').value;
-    var areaCode = document.getElementById('area-code').value;
-    var phoneNumber = document.getElementById('phone-number').value;
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-    db.collection('referraltest').doc().set({
+    // Save data to Firestore
+    db.collection('referralData').add({
         serialNumber: serialNumber,
         areaCode: areaCode,
         phoneNumber: phoneNumber
     })
-    .then(() => {
-        console.log('Data successfully written to Firestore');
+    .then((docRef) => {
+        console.log("Data written with ID: ", docRef.id);
     })
     .catch((error) => {
-        console.error('Error writing document: ', error);
+        console.error("Error adding document: ", error);
     });
-});
+}
 </script>
 </body>
 </html>
