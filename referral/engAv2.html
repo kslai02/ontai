@@ -86,9 +86,10 @@ Get a chance to win $200 of Supermarket Voucher!<br>
   </div>
 
 
-<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js"></script>
-    <script>
+<script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js';
+        import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js';
+  
         var firebaseConfig = {
             apiKey: "AIzaSyA3kLkvm0IxjE_8ivwoPNBJA9b8q2pvrs8",
             authDomain: "on-tai.firebaseapp.com",
@@ -98,7 +99,9 @@ Get a chance to win $200 of Supermarket Voucher!<br>
             messagingSenderId: "609378442957",
             appId: "1:609378442957:web:19aaa666beea5f2e1d5384"
         };
-        firebase.initializeApp(firebaseConfig);
+  
+        const firebaseApp = initializeApp(firebaseConfig);
+        const db = getDatabase(firebaseApp);
 
         document.getElementById('referral-form').addEventListener('submit', function(e) {
             e.preventDefault();
