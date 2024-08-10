@@ -87,40 +87,22 @@ Get a chance to win $200 of Supermarket Voucher!<br>
     <button class="copy-button" onclick="copyToClipboard()">Copy</button>
   </div>
 
+<script src="firebase/firebase.js"></script>
+<script>
+  const serialNumber = document.querySelector("serialNumber");
+  const areaCode = document.querySelector("areaCode");
+  const phoneNumber = document.querySelector("phoneNumber");
+  const submit = document.querySelector("submit");
 
-<script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js';
-        import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js';
-  
-        var firebaseConfig = {
-            apiKey: "AIzaSyA3kLkvm0IxjE_8ivwoPNBJA9b8q2pvrs8",
-            authDomain: "on-tai.firebaseapp.com",
-            databaseURL: "gs://on-tai.appspot.com",
-            projectId: "on-tai",
-            storageBucket: "on-tai.appspot.com",
-            messagingSenderId: "609378442957",
-            appId: "1:609378442957:web:19aaa666beea5f2e1d5384"
-        };
-  
-        const firebaseApp = initializeApp(firebaseConfig);
-        const db = getDatabase(firebaseApp);
-
-        document.getElementById('referral-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var serialNumber = document.getElementById('serial-number').value;
-            var areaCode = document.getElementById('area-code').value;
-            var phoneNumber = document.getElementById('phone-number').value;
-
-            firebase.database().ref('referralLinks').push({
-                serialNumber: serialNumber,
-                areaCode: areaCode,
-                phoneNumber: phoneNumber,
-            });
-
-            alert('Referral link generated successfully!');
-            document.getElementById('referral-form').reset();
-        });
-    </script>
+  submit.addEventListener('click', () => {
+    e.preventDefault();
+    db.collection('referraltest').doc().set({
+      serialNumber: serialNumber.value,
+      areaCode: areaCode.value,
+      phoneNumber: phoneNumber.value,
+    })
+  }
+</script>
 
 <script>
   function generateReferralLink() {
