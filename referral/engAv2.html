@@ -129,14 +129,25 @@ Get a chance to win $200 of Supermarket Voucher!<br>
   const phoneNumber = document.querySelector("phoneNumber");
   const submit = document.querySelector("submit");
 
-  submit.addEventListener('click', (e) => {
+    submit.addEventListener('click', (e) => {
     e.preventDefault();
+    
+    var serialNumber = document.getElementById('serial-number').value;
+    var areaCode = document.getElementById('area-code').value;
+    var phoneNumber = document.getElementById('phone-number').value;
+
     db.collection('referraltest').doc().set({
-      serialNumber: serialNumber.value,
-      areaCode: areaCode.value,
-      phoneNumber: phoneNumber.value,
+        serialNumber: serialNumber,
+        areaCode: areaCode,
+        phoneNumber: phoneNumber
     })
-  })
+    .then(() => {
+        console.log('Data successfully written to Firestore');
+    })
+    .catch((error) => {
+        console.error('Error writing document: ', error);
+    });
+});
 </script>
 </body>
 </html>
