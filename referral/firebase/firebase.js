@@ -1,3 +1,6 @@
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+
 var firebaseConfig = {
   apiKey: "AIzaSyA3kLkvm0IxjE_8ivwoPNBJA9b8q2pvrs8",
   authDomain: "on-tai.firebaseapp.com",
