@@ -89,7 +89,7 @@ Get a chance to win $200 of Supermarket Voucher!<br>
 
 <script src="firebase/firebase.js"></script>
 <script>
-  function generateReferralLink() {
+function generateReferralLink() {
     const serialNumber = document.getElementById('serialNumber').value;
     const areaCode = document.getElementById('areaCode').value;
     const phoneNumber = document.getElementById('phoneNumber').value;
@@ -98,41 +98,35 @@ Get a chance to win $200 of Supermarket Voucher!<br>
 
     // Check if serialNumber is blank
     if (serialNumber === "") {
-      // Get the current date and time
-      const currentDate = new Date();
-      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-      const day = String(currentDate.getDate()).padStart(2, '0');
-      const hour = String(currentDate.getHours()).padStart(2, '0');
-
-      // Format the date and time as "MMDDHH"
-      formattedSerialNumber = `${month}${day}${hour}`;
+        const currentDate = new Date();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const hour = String(currentDate.getHours()).padStart(2, '0');
+        formattedSerialNumber = `${month}${day}${hour}`;
     } else {
-      // Use the original serialNumber
-      formattedSerialNumber = serialNumber;
+        formattedSerialNumber = serialNumber;
     }
 
     const referralLink = `https://forms.office.com/Pages/ResponsePage.aspx?id=Z0SPUnKTWkqMlPonAoUhXba_B5WWkiJIlCR2l3beZORUMlJGOE1HSFRCTTBNT1NRME9LSjdGSFcyQi4u&rb931b2a38b6a4537964433e930fada54=E${formattedSerialNumber}A&rdc72b0214d8a4f699eb3ef19fe9e0e64=${areaCode}${phoneNumber}`;
     document.getElementById('referralLink').href = referralLink;
     document.getElementById('referralLink').textContent = referralLink;
 
-  function copyToClipboard() {
-    const resultText = document.getElementById('referralLink').textContent;
-    navigator.clipboard.writeText(resultText);
-    alert('Text copied to clipboard!');
-  }
-   saveDataToFirebase(formattedSerialNumber, areaCode, phoneNumber);
+    saveDataToFirebase(formattedSerialNumber, areaCode, phoneNumber);
 }
 
-  function saveDataToFirebase(serialNumber, areaCode, phoneNumber) {
-    // Initialize Firebase
+function saveDataToFirebase(serialNumber, areaCode, phoneNumber) {
     const firebaseConfig = {
-        // Your Firebase config
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
     };
-    
+
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // Save data to Firestore
     db.collection('referralData').add({
         serialNumber: serialNumber,
         areaCode: areaCode,
