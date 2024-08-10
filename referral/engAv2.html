@@ -94,14 +94,14 @@ Get a chance to win $200 of Supermarket Voucher!<br>
   const phoneNumber = document.querySelector("phoneNumber");
   const submit = document.querySelector("submit");
 
-  submit.addEventListener('click', () => {
+  submit.addEventListener('click', (e) => {
     e.preventDefault();
     db.collection('referraltest').doc().set({
       serialNumber: serialNumber.value,
       areaCode: areaCode.value,
       phoneNumber: phoneNumber.value,
     })
-  }
+  })
 </script>
 
 <script>
