@@ -87,23 +87,6 @@ Get a chance to win $200 of Supermarket Voucher!<br>
     <button class="copy-button" onclick="copyToClipboard()">Copy</button>
   </div>
 
-<script src="firebase/firebase.js"></script>
-<script>
-  const serialNumber = document.querySelector("serialNumber");
-  const areaCode = document.querySelector("areaCode");
-  const phoneNumber = document.querySelector("phoneNumber");
-  const submit = document.querySelector("submit");
-
-  submit.addEventListener('click', (e) => {
-    e.preventDefault();
-    db.collection('referraltest').doc().set({
-      serialNumber: serialNumber.value,
-      areaCode: areaCode.value,
-      phoneNumber: phoneNumber.value,
-    })
-  })
-</script>
-
 <script>
   function generateReferralLink() {
     const serialNumber = document.getElementById('serialNumber').value;
@@ -137,6 +120,23 @@ Get a chance to win $200 of Supermarket Voucher!<br>
     navigator.clipboard.writeText(resultText);
     alert('Text copied to clipboard!');
   }
+</script>
+
+<script src="firebase/firebase.js"></script>
+<script>
+  const serialNumber = document.querySelector("serialNumber");
+  const areaCode = document.querySelector("areaCode");
+  const phoneNumber = document.querySelector("phoneNumber");
+  const submit = document.querySelector("submit");
+
+  submit.addEventListener('click', (e) => {
+    e.preventDefault();
+    db.collection('referraltest').doc().set({
+      serialNumber: serialNumber.value,
+      areaCode: areaCode.value,
+      phoneNumber: phoneNumber.value,
+    })
+  })
 </script>
 </body>
 </html>
