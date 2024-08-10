@@ -70,7 +70,7 @@
   <label for="phoneNumber">Phone Number:</label>
   <input type="text" id="phoneNumber" placeholder="Enter phone number">
 
-  <button onclick="generateReferralLink()">Generate Referral Link</button>
+  <button type="submit" onclick="generateReferralLink()">Generate Referral Link</button>
 </div>
 
 
@@ -85,33 +85,36 @@ Get a chance to win $200 of Supermarket Voucher!<br>
     <button class="copy-button" onclick="copyToClipboard()">Copy</button>
   </div>
 
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyA3kLkvm0IxjE_8ivwoPNBJA9b8q2pvrs8",
-    authDomain: "on-tai.firebaseapp.com",
-    projectId: "on-tai",
-    storageBucket: "on-tai.appspot.com",
-    messagingSenderId: "609378442957",
-    appId: "1:609378442957:web:19aaa666beea5f2e1d5384",
-    measurementId: "G-GCPF9KPBEV"
- };
 
-  // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyA3kLkvm0IxjE_8ivwoPNBJA9b8q2pvrs8",
+            authDomain: "on-tai.firebaseapp.com",
+            databaseURL: "gs://on-tai.appspot.com",
+            projectId: "on-tai",
+            storageBucket: "on-tai.appspot.com",
+            messagingSenderId: "609378442957",
+            appId: "1:609378442957:web:19aaa666beea5f2e1d5384"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        document.getElementById('referral-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var serialNumber = document.getElementById('serial-number').value;
+            var areaCode = document.getElementById('area-code').value;
+            var phoneNumber = document.getElementById('phone-number').value;
 
             firebase.database().ref('referralLinks').push({
                 serialNumber: serialNumber,
                 areaCode: areaCode,
-                phoneNumber: phoneNumber
+                phoneNumber: phoneNumber,
+            });
 
+            alert('Referral link generated successfully!');
+            document.getElementById('referral-form').reset();
+        });
     </script>
 
 <script>
