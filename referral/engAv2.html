@@ -147,11 +147,10 @@ function saveDataToFirebase(serialNumber, areaCode, phoneNumber) {
 }
 </script>
 -->
+<script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-firestore.js"></script>
 
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js';
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.1.0/firebase-firestore.js';
-
+<script>
 // Initialize Firebase
 const firebaseConfig = {
       apiKey: "AIzaSyA3kLkvm0IxjE_8ivwoPNBJA9b8q2pvrs8",
@@ -190,9 +189,9 @@ function generateReferralLink() {
     saveDataToFirebase(formattedSerialNumber, areaCode, phoneNumber);
 }
 
-function saveDataToFirebase(serialNumber, areaCode, phoneNumber) {
+function saveDataToFirebase(formattedSerialNumber, areaCode, phoneNumber) {
     db.collection('referralData').add({
-        serialNumber: serialNumber,
+        serialNumber: formattedSerialNumber,
         areaCode: areaCode,
         phoneNumber: phoneNumber
     })
