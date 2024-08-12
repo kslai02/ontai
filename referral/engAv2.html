@@ -90,6 +90,7 @@ Get a chance to win $200 of Supermarket Voucher!<br>
 <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-firestore.js"></script>
 <script>
+// Wait for the Firebase SDK scripts to load before initializing Firebase
 document.addEventListener('DOMContentLoaded', function() {
     const firebaseConfig = {
         apiKey: "AIzaSyA3kLkvm0IxjE_8ivwoPNBJA9b8q2pvrs8",
@@ -101,6 +102,14 @@ document.addEventListener('DOMContentLoaded', function() {
         measurementId: "G-GCPF9KPBEV"
     };
 
+    // Check if firebase is initialized before reinitializing
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    }
+
+    const db = firebase.firestore();
+  
     const app = firebase.initializeApp(firebaseConfig);
     firebase.analytics();
     const db = firebase.firestore(app);
