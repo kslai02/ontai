@@ -151,6 +151,7 @@ function saveDataToFirebase(serialNumber, areaCode, phoneNumber) {
 <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-firestore.js"></script>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
 // Initialize Firebase
 const firebaseConfig = {
       apiKey: "AIzaSyA3kLkvm0IxjE_8ivwoPNBJA9b8q2pvrs8",
@@ -162,12 +163,9 @@ const firebaseConfig = {
       measurementId: "G-GCPF9KPBEV"
 };
 
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
-const firestore= firebase.firestore()
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+    const app = firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    const db = firebase.firestore(app);
 
 function generateReferralLink() {
     const serialNumber = document.getElementById('serialNumber').value;
@@ -206,6 +204,9 @@ function saveDataToFirebase(formattedSerialNumber, areaCode, phoneNumber) {
         console.error("Error adding document: ", error);
     });
 }
+
+});
+
 </script>
 
 </body>
